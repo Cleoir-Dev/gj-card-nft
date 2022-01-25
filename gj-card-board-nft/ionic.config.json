@@ -1,0 +1,7 @@
+{
+  "name": "gj-card-board-nft",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
