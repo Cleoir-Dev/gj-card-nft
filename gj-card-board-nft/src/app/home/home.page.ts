@@ -16,8 +16,9 @@ export class HomePage implements OnInit, OnDestroy {
   constructor(private plt: Platform) {
     this.config = {
       type: Phaser.AUTO,
-      width: this.plt.width(),
-      height: this.plt.height(),
+      width: 640,//this.plt.width(),
+      height: 1024,//this.plt.height(),
+      backgroundColor: '#333333',
       parent: 'gameContainer',
       scale: {
         mode: Phaser.Scale.FIT,
