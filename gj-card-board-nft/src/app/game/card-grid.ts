@@ -1,22 +1,22 @@
 import CardBase from '../game/card-base';
 
 export default class CardGrid extends CardBase {
-  textValue: Phaser.GameObjects.BitmapText;
+  textValue: Phaser.GameObjects.Text;
   cardtype: any;
   private _value: any;
   constructor(data) {
     let { value, type } = data;
     super(data);
-    //this.textValue = new Phaser.GameObjects.BitmapText(this.scene, 0, -100, 'pressstart', value);
-    //this.add(this.textValue);
+    this.textValue = new Phaser.GameObjects.Text(this.scene, 0, -100, 'pressstart', { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif' });
+    this.add(this.textValue);
     this.value = value;
     this.cardtype = type;
   }
   set value(newValue) {
     this._value = newValue;
-    // this.textValue.text = this._value;
-    // this.textValue.x = -45 - this.textValue.width / 2;
-    // this.textValue.tint = 0;
+    this.textValue.text = this._value;
+    this.textValue.x = -45 - this.textValue.width / 2;
+    this.textValue.tint = 0;
   }
   get value() {
     return this._value;

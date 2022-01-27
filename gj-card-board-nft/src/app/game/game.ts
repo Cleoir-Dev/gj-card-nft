@@ -1,14 +1,16 @@
 import * as Phaser from "phaser";
 import { AddButtonRestart } from "./button-restart";
+import CardBase from "./card-base";
 import CardGrid from "./card-grid";
 import CardPlayer from "./card-player";
 import Grid from "./grid";
 
 export class GameScene extends Phaser.Scene {
-
+  count = 0;
   grid: Grid;
   player: CardPlayer;
   highlighted: any;
+
 
   constructor() {
     super({key: 'game'});
@@ -33,6 +35,13 @@ export class GameScene extends Phaser.Scene {
     this.load.bitmapFont('pressstart', 'assets/pressstart.png', 'assets/pressstart.fnt');
   }
   create() {
+
+    if(this.count == 0){
+      this.scene.restart();
+      this.count++;
+    }
+
+
     this.player = new CardPlayer({
       scene: this,
       name: 'Paladin',
@@ -62,6 +71,7 @@ export class GameScene extends Phaser.Scene {
               this.player.armor = this.highlighted.value;
               break;
           }
+
           if (this.player.dead) {
             AddButtonRestart(this);
           } else {

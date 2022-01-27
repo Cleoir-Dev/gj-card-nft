@@ -14,7 +14,7 @@ export default class CardPlayer extends CardDraggable {
     let { health } = data;
     super(data);
     this.textHealth = new Phaser.GameObjects.BitmapText(this.scene, 0, -102, 'pressstart', health);
-    this.textMaxHealth = new Phaser.GameObjects.BitmapText(this.scene, -20, -90, 'pressstart', health, 12);
+    this.textMaxHealth = new Phaser.GameObjects.BitmapText(this.scene, -80, -900, 'pressstart', health, 12);
     this.textArmor = new Phaser.GameObjects.BitmapText(this.scene, 0, -102, 'pressstart');
     this.spriteArmor = new Phaser.GameObjects.Sprite(this.scene, 50, -80, 'armor');
     this.textHealth.tint = 0;
@@ -29,6 +29,8 @@ export default class CardPlayer extends CardDraggable {
     this._health = newHealth;
     this.textHealth.text = this._health;
     this.textHealth.x = -44 - this.textHealth.width / 2;
+    console.log("he, ",this.textHealth.text);
+
   }
 
   get health() {
