@@ -1,7 +1,5 @@
 import * as Phaser from "phaser";
 import { AddButtonRestart } from "./button-restart";
-import CardBase from "./card-base";
-import CardGrid from "./card-grid";
 import CardPlayer from "./card-player";
 import Grid from "./grid";
 
@@ -10,6 +8,9 @@ export class GameScene extends Phaser.Scene {
   grid: Grid;
   player: CardPlayer;
   highlighted: any;
+  timedEvent: any;
+  text: any;
+  textCount: Phaser.GameObjects.Text;
 
 
   constructor() {
@@ -35,12 +36,19 @@ export class GameScene extends Phaser.Scene {
     this.load.bitmapFont('pressstart', 'assets/pressstart.png', 'assets/pressstart.fnt');
   }
   create() {
+    //Fase
+    this.textCount = this.add.text(490, 1000, '', { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', font: '16px Courier' });
+    this.textCount.setText([
+      'Fase: ' + this.count + ' De: 10'
+    ]);
+    //tempo
+    this.text = this.add.text(32, 1000, 'Time: ', { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif' });
+    this.timedEvent = this.time.delayedCall(50000, this.onEvent, [], this);
 
     if(this.count == 0){
       this.scene.restart();
       this.count++;
     }
-
 
     this.player = new CardPlayer({
       scene: this,
@@ -55,6 +63,11 @@ export class GameScene extends Phaser.Scene {
         this.player.x = this.player.originalX;
         this.player.y = this.player.originalY;
         if (this.highlighted) {
+
+          if(this.count == 10){
+            this.scene.remove();
+          }
+
           this.player.originalX = this.player.x = this.highlighted.x;
           this.highlighted.selected = true;
           switch (this.highlighted.cardtype) {
@@ -73,16 +86,26 @@ export class GameScene extends Phaser.Scene {
           }
 
           if (this.player.dead) {
+            this.count = 0;
             AddButtonRestart(this);
           } else {
             this.grid.fadeFrontRow();
           }
+
+          this.count++;
         }
       }
     });
   }
 
   update(time, delta) {
+
+    this.textCount.setText([
+      'Fase: ' + this.count + ' De: 10'
+    ]);
+
+    this.text.setText('Time: ' + this.timedEvent.getProgress().toString().substr(0, 4));
+
     this.grid.cards[0].highlighted = false;
     this.grid.cards[1].highlighted = false;
     this.grid.cards[2].highlighted = false;
@@ -103,6 +126,11 @@ export class GameScene extends Phaser.Scene {
       }
     }
    }
+
+  onEvent ()
+  {
+    this.scene.remove();
+  }
 }
 
 

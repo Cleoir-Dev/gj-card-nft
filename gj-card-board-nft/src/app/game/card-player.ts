@@ -29,8 +29,6 @@ export default class CardPlayer extends CardDraggable {
     this._health = newHealth;
     this.textHealth.text = this._health;
     this.textHealth.x = -44 - this.textHealth.width / 2;
-    console.log("he, ",this.textHealth.text);
-
   }
 
   get health() {
