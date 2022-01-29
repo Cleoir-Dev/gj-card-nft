@@ -1,12 +1,12 @@
 export let cardtypes = [
   {
-    name: 'Minor Healing Potion',
+    name: 'Life',
     value: 3,
     image: 'healingpotion',
     type: 'heal'
   },
   {
-    name: 'Major Healing Potion',
+    name: 'Life',
     value: 6,
     image: 'healingpotion',
     type: 'heal'
@@ -24,31 +24,31 @@ export let cardtypes = [
     type: 'attack'
   },
   {
-    name: 'Troll',
+    name: 'Leaf',
     value: 8,
     image: 'troll',
     type: 'attack'
   },
   {
-    name: 'Ogre',
+    name: 'Witch',
     value: 10,
     image: 'ogre',
     type: 'attack'
   },
   {
-    name: 'Death Knight',
+    name: 'Knight',
     value: 12,
     image: 'deathknight',
     type: 'attack'
   },
   {
-    name: 'Fire Drake',
+    name: 'Drake',
     value: 16,
     image: 'firedrake',
     type: 'attack'
   },
   {
-    name: 'Golden Dragon',
+    name: 'Fairy',
     value: 20,
     image: 'goldendragon',
     type: 'attack'

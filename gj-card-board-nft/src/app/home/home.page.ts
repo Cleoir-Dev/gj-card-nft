@@ -1,8 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Platform } from '@ionic/angular';
 
 import * as Phaser from 'phaser';
+import { EndScene } from '../game/end-scene';
 import { GameScene } from '../game/game';
+import { PreScene } from '../game/pre-scene';
+import { WinnerScene } from '../game/winner-scene';
+
 
 @Component({
   selector: 'app-home',
@@ -12,27 +15,29 @@ import { GameScene } from '../game/game';
 export class HomePage implements OnInit, OnDestroy {
   config: any;
   game: Phaser.Game;
+  public loading: any;
 
-  constructor(private plt: Platform) {
+  constructor() {
     this.config = {
       type: Phaser.AUTO,
-      width: 640,//this.plt.width(),
-      height: 1024,//this.plt.height(),
-      backgroundColor: '#333333',
+      width: 640,
+      height: 1024,
+      backgroundColor: '#3f3185',
       parent: 'gameContainer',
       scale: {
         mode: Phaser.Scale.FIT,
         autoCenter: Phaser.Scale.CENTER_BOTH,
       },
-      scene: GameScene
+      scene: [ PreScene, GameScene, EndScene, WinnerScene ]
     };
   }
 
   ngOnInit(): void {
-    this.game = new Phaser.Game(this.config);
+      this.game = new Phaser.Game(this.config);
   }
 
   ngOnDestroy(): void {
     this.game.destroy(true, false);
   }
+
 }

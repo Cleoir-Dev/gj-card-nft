@@ -1,3 +1,4 @@
+import { LoadingController } from "@ionic/angular";
 import * as Phaser from "phaser";
 import { AddButtonRestart } from "./button-restart";
 import CardPlayer from "./card-player";
@@ -9,16 +10,16 @@ export class GameScene extends Phaser.Scene {
   player: CardPlayer;
   highlighted: any;
   timedEvent: any;
-  text: any;
+  text: Phaser.GameObjects.Text;
   textCount: Phaser.GameObjects.Text;
 
 
-  constructor() {
+  constructor(public loadingCtrl: LoadingController) {
     super({key: 'game'});
   }
+  
 
   preload() {
-    this.grid = new Grid({ scene: this, columns: 3, rows: 3 });
     this.load.image('armor', 'assets/armor.png');
     this.load.image('card', 'assets/card.png');
     this.load.image('dead', 'assets/dead.png');
@@ -34,21 +35,22 @@ export class GameScene extends Phaser.Scene {
     this.load.image('shield', 'assets/shield.png');
     this.load.image('troll', 'assets/troll.png');
     this.load.bitmapFont('pressstart', 'assets/pressstart.png', 'assets/pressstart.fnt');
+    
   }
   create() {
+    this.grid = new Grid({ scene: this, columns: 3, rows: 3 });
+
+    const style = { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', fill: "#BAC123", align: "center"  };
     //Fase
-    this.textCount = this.add.text(490, 1000, '', { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', font: '16px Courier' });
+    this.textCount = this.add.text(380, 970, '', style).setFontSize(30);
     this.textCount.setText([
-      'Fase: ' + this.count + ' De: 10'
+      'Turn: ' + this.count + ' From: 20'
     ]);
     //tempo
-    this.text = this.add.text(32, 1000, 'Time: ', { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif' });
-    this.timedEvent = this.time.delayedCall(50000, this.onEvent, [], this);
+    
+    this.text = this.add.text(32, 970, 'Time: ', style).setFontSize(30);
 
-    if(this.count == 0){
-      this.scene.restart();
-      this.count++;
-    }
+    this.timedEvent = this.time.delayedCall(64500, this.onEvent, [], this);
 
     this.player = new CardPlayer({
       scene: this,
@@ -63,10 +65,6 @@ export class GameScene extends Phaser.Scene {
         this.player.x = this.player.originalX;
         this.player.y = this.player.originalY;
         if (this.highlighted) {
-
-          if(this.count == 10){
-            this.scene.remove();
-          }
 
           this.player.originalX = this.player.x = this.highlighted.x;
           this.highlighted.selected = true;
@@ -91,8 +89,12 @@ export class GameScene extends Phaser.Scene {
           } else {
             this.grid.fadeFrontRow();
           }
-
           this.count++;
+
+          if(this.count == 20){
+            this.count = 0;
+            this.scene.start('winner');
+          }
         }
       }
     });
@@ -101,7 +103,7 @@ export class GameScene extends Phaser.Scene {
   update(time, delta) {
 
     this.textCount.setText([
-      'Fase: ' + this.count + ' De: 10'
+      'Turn: ' + this.count + ' From: 20'
     ]);
 
     this.text.setText('Time: ' + this.timedEvent.getProgress().toString().substr(0, 4));
@@ -129,7 +131,8 @@ export class GameScene extends Phaser.Scene {
 
   onEvent ()
   {
-    this.scene.remove();
+    this.count = 0;
+    this.scene.start('end');
   }
 }
 

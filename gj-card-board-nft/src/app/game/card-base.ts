@@ -6,7 +6,7 @@ export default class CardBase extends Phaser.GameObjects.Container {
   constructor(data) {
     let { scene, x, y, name, card, image, depth } = data;
     let spriteCard = new Phaser.GameObjects.Sprite(scene, 0, 0, card);
-    let spriteImage = new Phaser.GameObjects.Sprite(scene, 0, 20, image);
+    let spriteImage = new Phaser.GameObjects.Sprite(scene, 10, -5, image);
     let textName = new Phaser.GameObjects.Text(scene, 0, 0, name, { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif' });
     super(scene, x, y, [spriteCard, spriteImage, textName]);
     this.spriteCard = spriteCard;
@@ -23,8 +23,8 @@ export default class CardBase extends Phaser.GameObjects.Container {
     this.textName.text = this._cardname;
     this.textName.width = this.spriteCard.width;
     this.textName.tint = 0;
-    this.textName.x = -(this.textName.width-30) / 2;
-    this.textName.y = 120 - this.textName.height;
+    this.textName.x = -50;
+    this.textName.y = 70;
   }
 
   deadAnimation() {
