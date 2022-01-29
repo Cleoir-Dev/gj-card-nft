@@ -8,11 +8,23 @@ export class WinnerScene extends Phaser.Scene {
 
   preload() {
     this.load.image('cg', 'assets/congratulations.png');
+
+    this.load.audio('won', [
+      'assets/audio/won.ogg',
+      'assets/audio/won.mp3'
+  ]);
   }
   create() {
+    // play song theme
+    let song = this.sound.add('won');
+
+    song.play({ loop: true });
     // logo
     this.add.image(20, 200, "cg").setOrigin(0, 0);
-    this.input.on('pointerup', () => { this.scene.start('pre')});
+    this.input.on('pointerup', () => { 
+      this.scene.start('pre');
+      song.stop();
+    });
   }
 }
 

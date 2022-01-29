@@ -12,6 +12,7 @@ export class GameScene extends Phaser.Scene {
   timedEvent: any;
   text: Phaser.GameObjects.Text;
   textCount: Phaser.GameObjects.Text;
+  song: Phaser.Sound.BaseSound;
 
 
   constructor(public loadingCtrl: LoadingController) {
@@ -34,11 +35,21 @@ export class GameScene extends Phaser.Scene {
     this.load.image('restartbutton', 'assets/restartbutton.png');
     this.load.image('shield', 'assets/shield.png');
     this.load.image('troll', 'assets/troll.png');
+
+    this.load.audio('stage', [
+      'assets/audio/stage.ogg',
+      'assets/audio/stage.mp3'
+  ]);
+
     this.load.bitmapFont('pressstart', 'assets/pressstart.png', 'assets/pressstart.fnt');
     
   }
   create() {
     this.grid = new Grid({ scene: this, columns: 3, rows: 3 });
+
+    // play song theme
+    this.song = this.sound.add('stage');
+    this.song.play({ loop: true });
 
     const style = { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', fill: "#BAC123", align: "center"  };
     //Fase
@@ -46,8 +57,8 @@ export class GameScene extends Phaser.Scene {
     this.textCount.setText([
       'Turn: ' + this.count + ' From: 20'
     ]);
+
     //tempo
-    
     this.text = this.add.text(32, 970, 'Time: ', style).setFontSize(30);
 
     this.timedEvent = this.time.delayedCall(64500, this.onEvent, [], this);
@@ -85,6 +96,7 @@ export class GameScene extends Phaser.Scene {
 
           if (this.player.dead) {
             this.count = 0;
+            this.song.stop();
             AddButtonRestart(this);
           } else {
             this.grid.fadeFrontRow();
@@ -94,6 +106,7 @@ export class GameScene extends Phaser.Scene {
           if(this.count == 20){
             this.count = 0;
             this.scene.start('winner');
+            this.song.stop();
           }
         }
       }
@@ -133,6 +146,7 @@ export class GameScene extends Phaser.Scene {
   {
     this.count = 0;
     this.scene.start('end');
+    this.song.stop();
   }
 }
 

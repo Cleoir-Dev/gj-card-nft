@@ -4,6 +4,7 @@ import * as Phaser from "phaser";
 export class PreScene extends Phaser.Scene {
 
   private background: Phaser.GameObjects.Image;
+  private song: Phaser.Sound.BaseSound;
 
   constructor() {
     super({key: 'pre'});
@@ -22,10 +23,9 @@ export class PreScene extends Phaser.Scene {
     this.load.bitmapFont('pressstart', 'assets/pressstart.png', 'assets/pressstart.fnt');
   }
   create() {
-
-    let song = this.sound.add('rude');
-
-    song.play({ loop: true });
+    // play song theme
+    this.song = this.sound.add('rude');
+    this.song.play({ loop: true });
     
     // background
     this.background = this.add.image(0, 0, "bg")
@@ -39,11 +39,9 @@ export class PreScene extends Phaser.Scene {
 
     this.input.on('pointerup', () => { 
       this.scene.start('game')
-      song.stop();
+      this.song.stop();
     });
   }
-
-  
 }
 
 
